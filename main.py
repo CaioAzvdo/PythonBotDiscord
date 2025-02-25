@@ -52,7 +52,7 @@ async def criar_cargo(interaction:discord.Interaction, user: discord.Member, rol
 
 @bot.tree.command(name="enviar_saudacoes", description="comando para envio de embed")
 async def enviar_embed(interaction:discord.Interaction, user: discord.Member):
-    embed = discord.Embed(title="Saudações! eu me chamo Curi", description="Espero ser útil a você!", color=0x00ff00)
+    embed = discord.Embed(title="Saudações! Eu me chamo Curi", description="Espero ser útil a você!", color=0x00ff00)
     embed.set_image(url='https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.5/c_scale,w_400/ncom/software/switch/70010000033003/cb6c1e805897d052d805039418fb6e7b3ef738e9222f3ff407088b7bd69ea294')
     # embed.add_field(name="Campo 1", value="Valor do Campo 1", inline=False)
     # embed.add_field(name="Campo 2", value="Valor do Campo 2", inline=False)
@@ -69,10 +69,7 @@ async def criar_chat_voz(interaction:discord.Interaction, nome_chat:str):
 async def criar_chat_voz(interaction:discord.Interaction, nome_chat:str):
     guild = interaction.guild
     text_channel = await guild.create_text_channel(name=f"{nome_chat}")
-    # channel_id = text_channel.id
     await text_channel.send("Sou o First! seu panaca")
-
-
     await interaction.response.send_message(f"Canal de texto criado com sucesso!", ephemeral=True)
 
 bot.run(os.getenv("DISCORD_TOKEN_API"))
