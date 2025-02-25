@@ -32,21 +32,16 @@ async def olaMundo(interaction:discord.Interaction):
     number1 = "Primeiro número a somar",
     number2 = "Segundo número a somar"
 )
-async def olaMundo(interaction:discord.Interaction, number1:int, number2:int):
-    result = number1 + number2
-    await interaction.response.send_message(f"O resultado é igual a {result} {interaction.user.mention}",ephemeral = True)
 
+#comando pra atribuir uma role especifica de um servidor especifico, acho que isso é muito especifico
 @bot.tree.command(name="cargofoda", description="comando para se tornar foda")
 async def cargoFoda(interaction:discord.Interaction, user: discord.Member):
-    # role = interaction.guild.get_role(role_id)
     role = interaction.guild.get_role(1343633150760194098)
     if role:
-        # await user.add_roles(role)
         await user.add_roles(role)
         await interaction.response.send_message(f"O cargo {role.name} foi atribuido")
     else:
         await interaction.response.send_message("Deu bom não meu jovem")
-    # await user.add_roles(1343633150760194098)
     await interaction.response.send_message(f"{interaction.user.mention} agora é foda!",ephemeral = True)
 
 
