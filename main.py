@@ -1,5 +1,6 @@
 import discord
 import os
+import httpx
 
 from discord.app_commands import guilds
 from dotenv import load_dotenv
@@ -59,6 +60,8 @@ async def enviar_embed(interaction:discord.Interaction, user: discord.Member):
 
     await user.send(embed=embed)
     await interaction.response.send_message(f"Embed enviado para {user.mention}", ephemeral=True)
+
+
 @bot.tree.command(name="criar_chat_voz", description="crie um chat de voz agora mesmo!")
 async def criar_chat_voz(interaction:discord.Interaction, nome_chat:str):
     guild = interaction.guild
@@ -71,5 +74,29 @@ async def criar_chat_voz(interaction:discord.Interaction, nome_chat:str):
     text_channel = await guild.create_text_channel(name=f"{nome_chat}")
     await text_channel.send("Sou o First! seu panaca")
     await interaction.response.send_message(f"Canal de texto criado com sucesso!", ephemeral=True)
+
+
+@bot.tree.command(name="buscar_pokemon", description="Pesquise por Pokemons!")
+async def buscar_pokemon(interaction:discord.Interaction, nome_pokemon:str):
+    async with httpx.AsyncClient() as client:
+        url = f"https://pokeapi.co/api/v2/pokemon/{nome_pokemon.lower()}"
+        response = await client.get(url)
+        embed = discord.Embed(title=f"Parabéns! Você encontrou um {nome_pokemon} selvagem!", description="Tome cuidado! esse Pokemon selvagem parece um pouco bravo.",color=0x00ff00)
+
+        if response.status_code == 200:
+            pokemon_data = response.json()
+            pokemon_img = pokemon_data["sprites"]["other"]["official-artwork"]["front_default"]
+            name = pokemon_data["name"].upper()
+            ability = pokemon_data["abilities"][0]["ability"]["name"].upper()
+            embed.set_image(url=pokemon_img)
+            # embed.set_thumbnail(url=pokemon_img)
+            embed.add_field(name=f"Nome do Pokemon: ", value=name, inline=False)
+            embed.add_field(name="Habilidade: ", value=ability, inline=False)
+            await interaction.response.send_message(embed=embed)
+        else:
+            await interaction.response.send_message("Pokemon não encontrado.", ephemeral=True)
+
+
+
 
 bot.run(os.getenv("DISCORD_TOKEN_API"))
