@@ -1,3 +1,0 @@
-discordpy
-python-dotenv
-httpx
