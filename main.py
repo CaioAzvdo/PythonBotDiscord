@@ -6,6 +6,7 @@ from discord.app_commands import guilds
 from dotenv import load_dotenv
 load_dotenv()
 from discord import app_commands
+
 class main(discord.Client):
     def __init__(self):
         intents = discord.Intents.all()
